@@ -20,7 +20,7 @@ const Home: NextPage = () => {
     setEmail,
     profSelecionado,
     setProfSelecionado,
-    marcarAula,
+    agendarAula,
     messagem,
     setMenssagem,
   } = useIndex();
@@ -62,14 +62,14 @@ const Home: NextPage = () => {
         </Grid>
 
         <DialogActions sx={{ mt: 5 }}>
-          <Button>Cancelar</Button>
-          <Button onClick={() => marcarAula}>Agendar</Button>
+          <Button onClick={() => setProfSelecionado(null)}>Cancelar</Button>
+          <Button onClick={() => agendarAula()}>Agendar</Button>
         </DialogActions>
       </Dialog>
 
       <Snackbar
         message={messagem}
-        open={messagem.length > 0}
+        open={messagem?.length > 0}
         autoHideDuration={2500}
         onClose={() => setMenssagem("")}
       />

@@ -3,7 +3,7 @@ import { Professor } from "../../@types/professor";
 import { ApiService } from "../../service/ApiService";
 
 export function useIndex() {
-  const [professores, setProfessores] = useState<Professor[]>();
+  const [professores, setProfessores] = useState<Professor[]>([]);
   const [nome, setNome] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [messagem, setMenssagem] = useState<string>("");
@@ -12,8 +12,8 @@ export function useIndex() {
   );
 
   useEffect(() => {
-    ApiService.get("/professores").then((response) => {
-      setProfessores(response.data);
+    ApiService.get("/professores/").then((resposta) => {
+      setProfessores(resposta.data);
     });
   }, []);
 
@@ -21,7 +21,7 @@ export function useIndex() {
     limparFormulario();
   }, [profSelecionado]);
 
-  function marcarAula() {
+  function agendarAula() {
     if (profSelecionado) {
       if (validarDadosAula()) {
         ApiService.post(`/professores/${profSelecionado.id}/aulas`, {
@@ -33,7 +33,8 @@ export function useIndex() {
             setMenssagem("Cadastrado com sucesso");
           })
           .catch((error) => {
-            setMenssagem(error.response?.data.message);
+            console.log("erro");
+            setMenssagem(error.response?.statusText);
           });
       } else {
         setMenssagem("Preencha os dados corretamente");
@@ -42,7 +43,7 @@ export function useIndex() {
   }
 
   function validarDadosAula() {
-    return nome.length > 0 && email.length > 0;
+    return nome.length > 2 && email.length > 0;
   }
 
   function limparFormulario() {
@@ -58,7 +59,7 @@ export function useIndex() {
     setEmail,
     profSelecionado,
     setProfSelecionado,
-    marcarAula,
+    agendarAula,
     messagem,
     setMenssagem,
   };

@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import { Professor } from "../../@types/professor";
+import { formatadorMonetario } from "../../service/FormatadorMonetario";
 import {
   Description,
   Infos,
@@ -26,8 +27,10 @@ export const List = (props: ListProps) => {
               <Photo src={professor.foto} alt={professor.nome} />
               <Infos>
                 <Name>{professor.nome}</Name>
-                <Value>R$ ${professor.valor_hora} por hora</Value>
-                <Description>{professor.descricao}</Description>
+                <Value>
+                  {formatadorMonetario(professor.valor_hora)} por hora
+                </Value>
+                <Description>Especialidade: {professor.descricao}</Description>
                 <Button
                   sx={{ width: "100%" }}
                   onClick={() => props.onSelect(professor)}
